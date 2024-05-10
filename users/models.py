@@ -6,9 +6,17 @@ from django.urls import reverse
 from django.utils.timezone import now
 
 
+class Shop(models.Model):
+    title = models.CharField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+
+
 class User(AbstractUser):
     image = models.ImageField(upload_to='users_images', null=True, blank=True)
     is_verified_email = models.BooleanField(default=False)
+    shop = models.ForeignKey(to=Shop, on_delete=models.CASCADE, blank=True, null=True)
 
 
 class EmailVerification(models.Model):

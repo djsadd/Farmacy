@@ -3,6 +3,7 @@ from django.shortcuts import HttpResponseRedirect
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 
+from users.models import Shop
 from common.views import TitleMixin
 from products.models import Basket, Product, ProductCategory
 
@@ -21,11 +22,20 @@ class ProductsListView(TitleMixin, ListView):
     def get_queryset(self):
         queryset = super(ProductsListView, self).get_queryset()
         category_id = self.kwargs.get('category_id')
+        shop_id = self.kwargs.get('shop_id')
+        query = self.request.GET.get('q')  # Получаем строку запроса из параметра 'q'
+        if query:
+            queryset = queryset.filter(name__icontains=query)
+            return queryset
+        if shop_id:
+            print(shop_id)
+            return queryset.filter(shop=shop_id)
         return queryset.filter(category_id=category_id) if category_id else queryset
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ProductsListView, self).get_context_data()
         context['categories'] = ProductCategory.objects.all()
+        context['shops'] = Shop.objects.all()
         return context
 
 

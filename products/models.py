@@ -2,7 +2,7 @@ import stripe
 from django.conf import settings
 from django.db import models
 
-from users.models import User
+from users.models import User, Shop
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -27,6 +27,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products_images', null=True, blank=True)
     stripe_product_price_id = models.CharField(max_length=128, null=True, blank=True)
     category = models.ForeignKey(to=ProductCategory, on_delete=models.CASCADE)
+    shop = models.ForeignKey(to=Shop, blank=True, null=True, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'product'
@@ -46,7 +47,6 @@ class Product(models.Model):
         stripe_product_price = stripe.Price.create(
             product=stripe_product['id'], unit_amount=round(self.price * 100), currency='rub')
         return stripe_product_price
-
 
 
 class BasketQuerySet(models.QuerySet):

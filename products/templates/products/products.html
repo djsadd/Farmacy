@@ -6,13 +6,15 @@
 {% endblock %}
 
 {% block content %}
+
+
     <div class="container">
 
         <div class="row">
 
             <div class="col-lg-3">
 
-                <h1 class="my-4">Store</h1>
+                <h1 class="my-4">Категория</h1>
                 <div class="list-group">
                     {% for category in categories %}
                         <a href="{% url 'products:category' category.id %}" class="list-group-item">
@@ -21,7 +23,19 @@
                     {% endfor %}
                 </div>
 
+                <h1 class="my-4">Магазин</h1>
+                <div class="list-group">
+                    {% for shop in shops %}
+                        <a href="{% url 'products:shop' shop.id %}" class="list-group-item">
+                            {{ shop.title }}
+                        </a>
+                    {% endfor %}
+                </div>
+
+
             </div>
+
+
             <!-- /.col-lg-3 -->
 
             <div class="col-lg-9">
@@ -54,8 +68,14 @@
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="sr-only">Next</span>
                     </a>
-                </div>
 
+                </div>
+                    <br>
+                    <br>
+                    <form>
+                       <p><input type="search" name="q" placeholder="Поиск по сайту">
+                       <input type="submit" value="Найти"></p>
+                    </form>
                 <div class="row">
 
                     {% for product in object_list %}
@@ -68,9 +88,9 @@
                                 </a>
                                 <div class="card-body">
                                     <h4 class="card-title">
-                                        <a href="#">{{ product.name }}</a>
+                                        <a href="#">{{ product.name }}, {{ product.shop }}</a>
                                     </h4>
-                                    <h5>{{ product.price|intcomma }} руб.</h5>
+                                    <h5>{{ product.price|intcomma }} тг.</h5>
                                     <p class="card-text">{{ product.description }}</p>
                                 </div>
                                 <div class="card-footer text-center">
