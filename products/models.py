@@ -48,6 +48,7 @@ class Product(models.Model):
         return stripe_product_price
 
 
+
 class BasketQuerySet(models.QuerySet):
     def total_sum(self):
         return sum(basket.sum() for basket in self)
